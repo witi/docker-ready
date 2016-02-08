@@ -1,0 +1,27 @@
+web:
+  build: ./docker/php-front/
+  ports:
+    - "8080:80"
+  volumes:
+    - /Users/jciterne/Work/magento/www:/var/www/site:rw
+  links:
+    - "bdd"
+bdd:
+  image: mysql
+  ports:
+    - "3306:3306"
+  environment:
+    - "MYSQL_ROOT_PASSWORD=toor"
+    - "MYSQL_USER=jciterne"
+    - "MYSQL_PASSWORD=toor"
+    - "MYSQL_DATABASE=magento"
+phpmyadmin:
+  build: ./docker/phpmyadmin/
+  links:
+    - "bdd"
+  ports:
+    - 8181:80
+  environment:
+    - "MYSQL_USERNAME=jciterne"
+    - "MYSQL_ROOT_PASSWORD=toor"
+    - "PMA_HOST=magento_bdd_1"
